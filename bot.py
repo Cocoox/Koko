@@ -7,8 +7,8 @@ logging.basicConfig(format='[%(asctime)s][%(levelname)s] : %(message)s', level=l
 log = logging.getLogger('koko')
 
 with open("token.txt", "r") as tokenfile:
-  token = tokenfile.read()
+    token = tokenfile.read()
 
 bot = Koko(token=token)
-log.info('Starting bot...')
+log.info('starting bot')
 bot.run()

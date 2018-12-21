@@ -4,25 +4,34 @@ import discord, asyncio
 from discord.ext import commands
 
 import random
-import re
-import urllib.parse, urllib.request
+import urbandict
+import logging
+
+log = logging.getLogger('koko')
 
 class Fun:
     def __init__(self, bot):
         self.bot = bot
-        self.send_message = bot.send_message0
 
-    @commands.command(pass_context=True, aliases=['flipacoin','coinflip'])
+    @commands.command(pass_context=True, aliases=['coinflip'])
     async def coin(self, ctx):
         ans = ['Heads!','Tails!']
         ans = random.choice(ans)
-        await self.send_message(ctx.message.channel, ans)
+        await self.bot.send_message(ctx.message.channel, ans)
 
-    # test command, delete later
-    @commands.command(pass_context=True)
-    async def say(self, ctx, words:str):
-        """Bot says what you say."""
-        await self.send_message(ctx.message.channel, words)
+    @commands.command(pass_context=True, aliases=['urb'])
+    async def urban(self, ctx, word:str):
+        """Get a definition from the urban dictionary."""
+        try:
+            urban = urbandict.define(word)
+        except Exception as e:
+            log.error('{}, user informed'.format(type(e).__name__))
+            await self.bot.send_message(ctx.message.channel, 'No definition found.')
+            return
+        message = '`{0}`\n\n'.format(word.capitalize())
+        message += '__Definition__ \n{0}\n\n'.format(urban[0]['def'])
+        message += '__Example__ \n{0}'.format(urban[0]['example'])
+        await self.bot.shorten(ctx.message.channel, message)
 
 def setup(bot):
     bot.add_cog(Fun(bot))
