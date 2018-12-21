@@ -6,7 +6,6 @@ from discord.ext import commands
 import logging
 import asyncio
 import re
-import inspect
 
 log = logging.getLogger('koko')
 logging.getLogger('discord').setLevel(logging.CRITICAL)
