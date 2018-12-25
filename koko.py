@@ -15,7 +15,7 @@ mods = ['mods.Fun']
 class Koko(commands.Bot):
     def __init__(self, *args, **kwargs):
         self.token = kwargs.pop('token', None)
-        super().__init__(command_prefix=commands.when_mentioned_or('k.'), *args, **kwargs)
+        super().__init__(command_prefix='k.', *args, **kwargs)
         self.remove_command('help')
         
     def run(self):
